@@ -34,7 +34,13 @@ elif [ $choice -eq 2 ]; then
          echo "User name can not be empty."
          exit 1
      fi
-     userdel -r $Username
+     var=$(cat /etc/passwd | grep -i $Username)
+     if [[ -z $var ]]; then
+        echo "User $Username not found"
+        exit 2
+     else
+        userdel -r $Username
+     fi
 #     RC=$?
      if [ $? == 0 ]; then
         echo "User $Username deleted successfully..."
@@ -47,3 +53,4 @@ else
  exit 1
 
 fi
+
